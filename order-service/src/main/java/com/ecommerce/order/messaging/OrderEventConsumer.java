@@ -4,10 +4,7 @@ import com.ecommerce.order.command.ProcessPaymentCommand;
 import com.ecommerce.order.command.ReleaseInventoryCommand;
 import com.ecommerce.order.entity.Order;
 import com.ecommerce.order.entity.OrderStatus;
-import com.ecommerce.order.event.InventoryRejectedEvent;
-import com.ecommerce.order.event.InventoryReservedEvent;
-import com.ecommerce.order.event.PaymentCompletedEvent;
-import com.ecommerce.order.event.PaymentFailedEvent;
+import com.ecommerce.order.event.*;
 import com.ecommerce.order.repository.OrderRepository;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -47,7 +44,7 @@ public class OrderEventConsumer {
 
             Optional<Order> orderOpt = findOrder(event.orderId());
             if (orderOpt.isEmpty()) {
-                log.error("[InventoryReserved] Order not found for ID {}", event.orderId());
+                log.error("[inventoryReserved] Order not found for ID {}", event.orderId());
                 return;
             }
 
@@ -72,7 +69,7 @@ public class OrderEventConsumer {
 
             Optional<Order> orderOpt = findOrder(event.orderId());
             if (orderOpt.isEmpty()) {
-                log.error("[InventoryRejected] Order not found for ID {}", event.orderId());
+                log.error("[inventoryRejected] Order not found for ID {}", event.orderId());
                 return;
             }
 
@@ -80,6 +77,9 @@ public class OrderEventConsumer {
             order.setStatus(OrderStatus.REJECTED);
             orderRepository.save(order);
             log.info("Order {} marked as REJECTED due to inventory rejection", order.getId());
+
+            orderCommandPublisher.sendCommand(new OrderCancelledEvent(order.getId(), "Inventory rejected"));
+            log.info("[inventoryRejected] OrderCancelledEvent published for order {}", order.getId());
         };
     }
 
@@ -99,6 +99,9 @@ public class OrderEventConsumer {
             order.setStatus(OrderStatus.COMPLETED);
             orderRepository.save(order);
             log.info("Order {} marked as COMPLETED", order.getId());
+
+            orderCommandPublisher.sendCommand(new OrderCompletedEvent(order.getId(), "COMPLETED"));
+            log.info("[paymentCompleted] OrderCompletedEvent published for order {}", order.getId());
         };
     }
 
@@ -122,8 +125,11 @@ public class OrderEventConsumer {
 
             // Send command to release reserved stock
             orderCommandPublisher.sendCommand(
-                    new ReleaseInventoryCommand(order.getId().toString()));
+                    new ReleaseInventoryCommand(order.getId().toString(), order.getProductId(), order.getQuantity()));
             log.info("ReleaseInventoryCommand sent for order {}", order.getId());
+
+            orderCommandPublisher.sendCommand(new OrderCancelledEvent(order.getId(), "Payment failed"));
+            log.info("[paymentFailed] OrderCancelledEvent published for order {}", order.getId());
         };
     }
 }

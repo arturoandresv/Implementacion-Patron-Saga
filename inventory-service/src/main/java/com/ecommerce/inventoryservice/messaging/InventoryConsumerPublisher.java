@@ -1,5 +1,6 @@
 package com.ecommerce.inventoryservice.messaging;
 
+import com.ecommerce.inventoryservice.command.ReleaseInventoryCommand;
 import com.ecommerce.inventoryservice.command.ReserveInventoryCommand;
 import com.ecommerce.inventoryservice.entity.InventoryItem;
 import com.ecommerce.inventoryservice.event.InventoryRejectedEvent;
@@ -64,6 +65,28 @@ public class InventoryConsumerPublisher {
             }
         };
     }
+
+    @Bean
+    public Consumer<Message<ReleaseInventoryCommand>> releaseInventory() {
+        return msg -> {
+            var cmd = msg.getPayload();
+            log.info("Received ReleaseInventoryCommand for order={} product={} quantity={}",
+                    cmd.orderId(), cmd.productId(), cmd.quantity());
+
+            Optional<InventoryItem> itemOpt = inventoryRepository.findByProductId(cmd.productId());
+            if (itemOpt.isEmpty()) {
+                log.error("Cannot release inventory for order {}: product {} not found", cmd.orderId(), cmd.productId());
+                return;
+            }
+
+            InventoryItem item = itemOpt.get();
+            item.setAvailableQuantity(item.getAvailableQuantity() + cmd.quantity());
+            inventoryRepository.save(item);
+
+            log.info("Released {} units for product {}. New available quantity: {}",
+                    cmd.quantity(), cmd.productId(), item.getAvailableQuantity());
+        };
+        }
 
     @Bean
     public Supplier<Message<?>> inventoryEvents() {
