@@ -6,6 +6,22 @@ spring:
     port: 5672
     username: admin
     password: admin
+
+  cloud:
+    stream:
+      function:
+        definition: processPayment;paymentEvents
+      bindings:
+        # Entrada: escucha los comandos de orden
+        processPayment-in-0:
+          destination: payment.commands
+          group: payment-service
+          content-type: application/json
+
+          # Salida: publica los eventos de pago
+        paymentEvents-out-0:
+          destination: payment.events
+          content-type: application/json
 server:
   port: 8082
 

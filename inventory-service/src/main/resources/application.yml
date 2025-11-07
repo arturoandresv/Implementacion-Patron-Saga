@@ -1,11 +1,24 @@
 spring:
   application:
-  name: inventory-service
+    name: inventory-service
   rabbitmq:
-  host: localhost
-  port: 5672
-  username: admin
-  password: admin
+    host: localhost
+    port: 5672
+    username: admin
+    password: admin
+
+    cloud:
+      stream:
+        function:
+          definition: reserveInventory;inventoryEvents
+        bindings:
+          reserveInventory-in-0:
+            destination: order.commands
+            group: inventory-service
+          inventoryEvents-out-0:
+            destination: inventory.events
+            content-type: application/json
+
 server:
   port: 8083
 
