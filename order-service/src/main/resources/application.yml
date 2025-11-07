@@ -11,10 +11,33 @@ spring:
   cloud:
     stream:
       function:
-        definition: orderCommands
+        definition: orderCommands;inventoryReserved;inventoryRejected;paymentCompleted;paymentFailed
       bindings:
+        # Output channel for commands
         orderCommands-out-0:
           destination: order.commands
+          content-type: application/json
+
+        # Inventory events
+        inventoryReserved-in-0:
+          destination: inventory.events
+          group: order-service
+          content-type: application/json
+
+        inventoryRejected-in-0:
+          destination: inventory.events
+          group: order-service
+          content-type: application/json
+
+        # Payment events
+        paymentCompleted-in-0:
+          destination: payment.events
+          group: order-service
+          content-type: application/json
+
+        paymentFailed-in-0:
+          destination: payment.events
+          group: order-service
           content-type: application/json
 
 server:
