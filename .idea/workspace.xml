@@ -10,7 +10,7 @@
       <change beforePath="$PROJECT_DIR$/inventory-service/src/main/java/com/ecommerce/inventoryservice/DTOs/InventoryReservedEvent.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/inventory-service/src/main/java/com/ecommerce/inventoryservice/DTOs/ReleaseInventoryCommand.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/inventory-service/src/main/java/com/ecommerce/inventoryservice/DTOs/ReserveInventoryCommand.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/inventory-service/src/main/java/com/ecommerce/inventoryservice/repository/InventoryRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/inventory-service/src/main/java/com/ecommerce/inventoryservice/repository/InventoryRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/inventory-service/src/main/java/com/ecommerce/inventoryservice/repository/InventoryRepository.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/inventory-service/src/main/java/com/ecommerce/inventoryservice/service/InventoryService.java" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
