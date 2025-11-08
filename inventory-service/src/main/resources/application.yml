@@ -1,6 +1,7 @@
 spring:
   application:
     name: inventory-service
+
   rabbitmq:
     host: rabbitmq
     port: 5672
@@ -22,13 +23,25 @@ spring:
     stream:
       function:
         definition: reserveInventory;releaseInventory;inventoryEvents
+
+      # ✅ POLLER - Necesario porque inventoryEvents es un Supplier
+      poller:
+        fixed-delay: 1000
+        max-messages-per-poll: 1
+
       bindings:
+        # Consumers (no necesitan poller)
         reserveInventory-in-0:
           destination: order.commands
           group: inventory-service
+          content-type: application/json
+
         releaseInventory-in-0:
           destination: order.commands
           group: inventory-service
+          content-type: application/json
+
+        # Producer (necesita poller)
         inventoryEvents-out-0:
           destination: inventory.events
           content-type: application/json
@@ -36,3 +49,8 @@ spring:
 server:
   port: 8083
 
+# Opcional pero recomendado para debug
+logging:
+  level:
+    org.springframework.cloud.stream: DEBUG
+    org.springframework.amqp: DEBUG

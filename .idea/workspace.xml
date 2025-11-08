@@ -7,22 +7,10 @@
     <list default="true" id="b0a9b997-c121-43c3-acd4-7bac73ed899e" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/inventory-service/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/inventory-service/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/inventory-service/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/inventory-service/src/main/resources/application.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/inventory-service/target/classes/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/inventory-service/target/classes/application.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/inventory-service/target/classes/com/ecommerce/inventoryservice/entity/InventoryItem.class" beforeDir="false" afterPath="$PROJECT_DIR$/inventory-service/target/classes/com/ecommerce/inventoryservice/entity/InventoryItem.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/order-service/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/order-service/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/order-service/src/main/java/com/ecommerce/order/controller/OrderController.java" beforeDir="false" afterPath="$PROJECT_DIR$/order-service/src/main/java/com/ecommerce/order/controller/OrderController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/order-service/src/main/java/com/ecommerce/order/dto/OrderResponseCreateDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/order-service/src/main/java/com/ecommerce/order/dto/OrderResponseDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/order-service/src/main/java/com/ecommerce/order/mapper/OrderMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/order-service/src/main/java/com/ecommerce/order/mapper/OrderMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/order-service/src/main/java/com/ecommerce/order/service/OrderService.java" beforeDir="false" afterPath="$PROJECT_DIR$/order-service/src/main/java/com/ecommerce/order/service/OrderService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/order-service/src/main/java/com/ecommerce/order/service/impl/OrderServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/order-service/src/main/java/com/ecommerce/order/service/impl/OrderServiceImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/order-service/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/order-service/src/main/resources/application.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/order-service/target/classes/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/order-service/target/classes/application.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/order-service/target/generated-sources/annotations/com/ecommerce/order/mapper/OrderMapperImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/order-service/target/generated-sources/annotations/com/ecommerce/order/mapper/OrderMapperImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/payment-service/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/payment-service/src/main/resources/application.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/payment-service/target/classes/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/payment-service/target/classes/application.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/payment-service/target/classes/com/ecommerce/paymentservice/entity/Payment.class" beforeDir="false" afterPath="$PROJECT_DIR$/payment-service/target/classes/com/ecommerce/paymentservice/entity/Payment.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -155,7 +143,8 @@
       <workItem from="1762490256559" duration="506000" />
       <workItem from="1762529597950" duration="8294000" />
       <workItem from="1762543678652" duration="4556000" />
-      <workItem from="1762561454083" duration="1484000" />
+      <workItem from="1762561454083" duration="2774000" />
+      <workItem from="1762564329424" duration="5886000" />
     </task>
     <servers />
   </component>

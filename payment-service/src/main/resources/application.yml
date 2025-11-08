@@ -1,6 +1,7 @@
 spring:
   application:
     name: payment-service
+
   rabbitmq:
     host: rabbitmq
     port: 5672
@@ -13,26 +14,39 @@ spring:
     password: password
     driverClassName: org.h2.Driver
   jpa:
-      hibernate:
-        ddl-auto: update
-      database-platform: org.hibernate.dialect.H2Dialect
-      show-sql: true
+    hibernate:
+      ddl-auto: update
+    database-platform: org.hibernate.dialect.H2Dialect
+    show-sql: true
 
   cloud:
     stream:
       function:
         definition: processPayment;paymentEvents
+
+      # ✅ POLLER - Necesario porque paymentEvents es un Supplier
+      poller:
+        fixed-delay: 1000
+        max-messages-per-poll: 1
+
       bindings:
-        # Entrada: escucha los comandos de orden
+        # Consumer (no necesita poller)
         processPayment-in-0:
           destination: order.commands
           group: payment-service
           content-type: application/json
 
-          # Salida: publica los eventos de pago
+        # Producer (necesita poller)
         paymentEvents-out-0:
           destination: payment.events
           content-type: application/json
+
 server:
   port: 8082
+
+# Opcional pero recomendado para debug
+logging:
+  level:
+    org.springframework.cloud.stream: DEBUG
+    org.springframework.amqp: DEBUG
 
