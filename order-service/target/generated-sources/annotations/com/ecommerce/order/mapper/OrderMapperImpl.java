@@ -1,7 +1,7 @@
 package com.ecommerce.order.mapper;
 
 import com.ecommerce.order.dto.OrderRequestCreateDTO;
-import com.ecommerce.order.dto.OrderResponseCreateDTO;
+import com.ecommerce.order.dto.OrderResponseDTO;
 import com.ecommerce.order.entity.Order;
 import com.ecommerce.order.entity.OrderStatus;
 import java.sql.Timestamp;
@@ -11,27 +11,33 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2025-11-06T17:49:50-0500",
-    comments = "version: 1.6.3, compiler: javac, environment: Java 21.0.5 (Amazon.com Inc.)"
+    date = "2025-11-07T18:52:35-0500",
+    comments = "version: 1.6.3, compiler: javac, environment: Java 21.0.7 (Oracle Corporation)"
 )
 @Component
 public class OrderMapperImpl implements OrderMapper {
 
     @Override
-    public OrderResponseCreateDTO toDTO(Order order) {
+    public OrderResponseDTO toDTO(Order order) {
         if ( order == null ) {
             return null;
         }
 
-        UUID orderId = null;
         String productId = null;
         Integer quantity = null;
         OrderStatus status = null;
         Timestamp createdAt = null;
 
-        OrderResponseCreateDTO orderResponseCreateDTO = new OrderResponseCreateDTO( orderId, productId, quantity, status, createdAt );
+        productId = order.getProductId();
+        quantity = order.getQuantity();
+        status = order.getStatus();
+        createdAt = order.getCreatedAt();
 
-        return orderResponseCreateDTO;
+        UUID orderId = null;
+
+        OrderResponseDTO orderResponseDTO = new OrderResponseDTO( orderId, productId, quantity, status, createdAt );
+
+        return orderResponseDTO;
     }
 
     @Override
@@ -40,8 +46,11 @@ public class OrderMapperImpl implements OrderMapper {
             return null;
         }
 
-        Order order = new Order();
+        Order.OrderBuilder order = Order.builder();
 
-        return order;
+        order.productId( dto.productId() );
+        order.quantity( dto.quantity() );
+
+        return order.build();
     }
 }

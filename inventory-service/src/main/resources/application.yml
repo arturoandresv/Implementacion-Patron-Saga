@@ -2,7 +2,7 @@ spring:
   application:
     name: inventory-service
   rabbitmq:
-    host: localhost
+    host: rabbitmq
     port: 5672
     username: admin
     password: admin
@@ -21,9 +21,12 @@ spring:
   cloud:
     stream:
       function:
-        definition: reserveInventory;inventoryEvents
+        definition: reserveInventory;releaseInventory;inventoryEvents
       bindings:
         reserveInventory-in-0:
+          destination: order.commands
+          group: inventory-service
+        releaseInventory-in-0:
           destination: order.commands
           group: inventory-service
         inventoryEvents-out-0:

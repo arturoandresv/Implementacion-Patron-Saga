@@ -2,7 +2,7 @@ package com.ecommerce.order.service.impl;
 
 import com.ecommerce.order.command.ReserveInventoryCommand;
 import com.ecommerce.order.dto.OrderRequestCreateDTO;
-import com.ecommerce.order.dto.OrderResponseCreateDTO;
+import com.ecommerce.order.dto.OrderResponseDTO;
 import com.ecommerce.order.entity.Order;
 import com.ecommerce.order.entity.OrderStatus;
 import com.ecommerce.order.mapper.OrderMapper;
@@ -10,10 +10,9 @@ import com.ecommerce.order.messaging.OrderCommandPublisher;
 import com.ecommerce.order.repository.OrderRepository;
 import com.ecommerce.order.service.OrderService;
 import lombok.RequiredArgsConstructor;
-import org.aspectj.weaver.ast.Or;
 import org.springframework.stereotype.Service;
 
-import java.sql.Timestamp;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -24,14 +23,14 @@ public class OrderServiceImpl implements OrderService {
     private final OrderCommandPublisher commandPublisher;
 
     @Override
-    public OrderResponseCreateDTO createOrder(OrderRequestCreateDTO orderRequestCreateDTO) {
+    public OrderResponseDTO createOrder(OrderRequestCreateDTO orderRequestCreateDTO) {
         Order order = Order.builder()
                         .productId(orderRequestCreateDTO.productId())
                         .quantity(orderRequestCreateDTO.quantity())
                         .status(OrderStatus.CREATED)
-                        //.createdAt(new Timestamp(System.currentTimeMillis()))
                         .build();
-        orderRepository.save(order);
+
+        order = orderRepository.save(order);
 
         ReserveInventoryCommand command = new ReserveInventoryCommand(
                 order.getId().toString(),
@@ -42,5 +41,10 @@ public class OrderServiceImpl implements OrderService {
         commandPublisher.sendCommand(command);
 
         return orderMapper.toDTO(order);
+    }
+
+    @Override
+    public List<OrderResponseDTO> getAllOrders() {
+        return orderRepository.findAll().stream().map(orderMapper::toDTO).toList();
     }
 }

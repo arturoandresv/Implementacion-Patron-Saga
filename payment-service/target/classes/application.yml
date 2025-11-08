@@ -1,11 +1,38 @@
 spring:
   application:
-  name: payment-service
+    name: payment-service
   rabbitmq:
-  host: localhost
-  port: 5672
-  username: admin
-  password: admin
+    host: localhost
+    port: 5672
+    username: admin
+    password: admin
+
+  datasource:
+    url: jdbc:h2:mem:paymentdb
+    username: sa
+    password: password
+    driverClassName: org.h2.Driver
+  jpa:
+      hibernate:
+        ddl-auto: update
+      database-platform: org.hibernate.dialect.H2Dialect
+      show-sql: true
+
+  cloud:
+    stream:
+      function:
+        definition: processPayment;paymentEvents
+      bindings:
+        # Entrada: escucha los comandos de orden
+        processPayment-in-0:
+          destination: order.commands
+          group: payment-service
+          content-type: application/json
+
+          # Salida: publica los eventos de pago
+        paymentEvents-out-0:
+          destination: payment.events
+          content-type: application/json
 server:
   port: 8082
 
